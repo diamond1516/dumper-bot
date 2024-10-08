@@ -2,8 +2,8 @@ from pydantic import BaseSettings, SecretStr, PostgresDsn
 
 
 class Settings(BaseSettings):
-    bot_token: SecretStr
-    db_url: PostgresDsn
+    BOT_TOKEN: SecretStr = '7362304291:AAHsSLbhZozUvZboGh_brEXMFp22bMkwF4E'
+    DB_URL: PostgresDsn = 'postgresql+psycopg://shoxista:shoxista@localhost/shoxista'
 
     class Config:
         env_file = '.env'
