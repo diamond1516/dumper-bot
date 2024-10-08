@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, BigInteger
 
-from bot.db.base import Base
+from bot.models.base import Base
 
 
 class PlayerScore(Base):

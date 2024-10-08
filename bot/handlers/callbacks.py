@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.common import BallsCallbackFactory
-from bot.db.models import PlayerScore
+from bot.models.models import PlayerScore
 from bot.keyboards import generate_balls
 
 router = Router(name="callbacks-router")
