@@ -11,6 +11,10 @@ from .base import Base
 class Database(Base):
     __tablename__ = 'databases'
 
+    project_name: Mapped['str'] = mapped_column(
+        sa.String,
+        unique=True,
+    )
     name: Mapped['str'] = mapped_column(
         sa.String,
     )
@@ -27,6 +31,10 @@ class Database(Base):
     port: Mapped['int'] = mapped_column(
         sa.Integer,
         default=5432
+    )
+    interval: Mapped['int'] = mapped_column(
+        sa.Integer,
+        default=30,
     )
     api: Mapped['str'] = mapped_column(
         sa.String,

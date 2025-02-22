@@ -1,8 +1,13 @@
 from aiogram import Router
 from aiogram.filters import CommandStart, Command
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 import sqlalchemy as sa
+
+from bot.models import Database
+from bot.states import AddDB
+
 
 
 router = Router(name="commands-router")
@@ -28,15 +33,19 @@ async def cmd_list(message: Message, session: AsyncSession):
     :param message: Telegram message with "/play" text
     :param session: DB connection session
     """
+    stmt = sa.select(Database).order_by(Database.id.desc())
+    result = await session.execute(stmt)
+    databases = result.scalars().all()
+    if not databases:
+        pass
+
 
 
 @router.message(Command("add"))
-async def cmd_add(message: Message, session: AsyncSession):
-    """
-    Handles /top command. Show top 5 players
-    :param message: Telegram message with "/top" text
-    :param session: DB connection session
-    """
+async def cmd_add(message: Message, session: AsyncSession, state: FSMContext):
+    await message.answer('Project nomi:')
+    await state.set_state(AddDB.project_name)
+
 
 
 

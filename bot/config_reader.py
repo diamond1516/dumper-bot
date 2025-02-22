@@ -1,7 +1,3 @@
-from pydantic import BaseSettings, SecretStr, PostgresDsn
-from dotenv import load_dotenv
-load_dotenv()
-
 
 class Settings(BaseSettings):
     BOT_TOKEN: SecretStr
