@@ -4,8 +4,8 @@ __all__ = (
 
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column
-from .base import Base
 
+from .base import Base
 
 
 class Database(Base):
@@ -27,6 +27,9 @@ class Database(Base):
     port: Mapped['int'] = mapped_column(
         sa.Integer,
         default=5432
+    )
+    api: Mapped['str'] = mapped_column(
+        sa.String,
     )
 
 
