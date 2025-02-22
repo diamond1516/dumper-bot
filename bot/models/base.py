@@ -33,6 +33,13 @@ class Base(DeclarativeBase):
 class BaseModel(Base):
     __abstract__ = True
 
-    created_at: Mapped[datetime] = mapped_column(sa.DateTime(timezone=True), default=utils.now)
-    updated_at: Mapped[datetime] = mapped_column(sa.DateTime(timezone=True), default=utils.now, onupdate=utils.now)
+    created_at: Mapped[datetime] = mapped_column(
+        sa.DateTime(timezone=True),
+        default=utils.now
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        sa.DateTime(timezone=True),
+        default=utils.now,
+        onupdate=utils.now
+    )
 
