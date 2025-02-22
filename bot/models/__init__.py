@@ -1,10 +1,10 @@
 __all__ = (
     'Base',
-    'PlayerScore',
+    'Database',
 )
 
 
 from .base import Base
-from .models import PlayerScore
+from .databases import Database
 
 
