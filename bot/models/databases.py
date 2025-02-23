@@ -40,5 +40,9 @@ class Database(Base):
         sa.String,
     )
 
+    interval_type: Mapped['str'] = mapped_column(
+        sa.String(25),
+    )
+
 
 
