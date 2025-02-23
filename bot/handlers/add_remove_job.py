@@ -67,7 +67,7 @@ async def handle_project_name(message: Message, state: FSMContext):
         await message.answer('DB api: ')
         await state.set_state(AddDB.api)
     else:
-        await message.answer("qayta kiriting xatolik: {'hour', 'day', 'month', 'minute'}")
+        await message.answer("Qayta kiriting xatolik: {'hour', 'day', 'month', 'minute'}")
 
 
 
