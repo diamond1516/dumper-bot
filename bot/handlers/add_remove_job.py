@@ -47,23 +47,33 @@ async def handle_project_name(message: Message, state: FSMContext):
 
 @router.message(AddDB.port)
 async def handle_project_name(message: Message, state: FSMContext):
-    await state.update_data(port=int(message.text))
-    await message.answer('DB interval: ')
-    await state.set_state(AddDB.interval)
+    text = message.text
+    if text.isdigit():
+        await state.update_data(port=int(message.text))
+        await message.answer('DB interval: ')
+        await state.set_state(AddDB.interval)
+    else:
+        await message.answer('DB port xatolik son emas ')
+        await state.set_state(AddDB.port)
+
 
 
 @router.message(AddDB.interval)
 async def handle_project_name(message: Message, state: FSMContext):
-    await state.update_data(interval=int(message.text))
-    await message.answer('DB interval_type: ')
-    await state.set_state(AddDB.interval_type)
-
+    text = message.text
+    if text.isdigit():
+        await state.update_data(interval=int(message.text))
+        await message.answer('DB interval_type: ')
+        await state.set_state(AddDB.interval_type)
+    else:
+        await message.answer('DB interval xatolik son emas ')
+        await state.set_state(AddDB.interval)
 
 @router.message(AddDB.interval_type)
 async def handle_project_name(message: Message, state: FSMContext):
     text = message.text
     if text in {'hour', 'day', 'month', 'minute'}:
-        await state.update_data(interval=str(message.text))
+        await state.update_data(interval_type=str(message.text))
         await message.answer('DB api: ')
         await state.set_state(AddDB.api)
     else:
