@@ -17,7 +17,7 @@ def add_cron_job(
 
     command = f'python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
-    job = cron.new(command=command, comment=project_name)
+    job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
 
     if interval_type == "hour":
         job.minute.on(0)
@@ -33,7 +33,7 @@ def add_cron_job(
         job.hour.on(0)
         job.day.on(1)
     elif interval_type == "minute":
-        assert interval >= 59 , 'The interval must be in hour, day, month'
+        assert interval <= 59 , 'The interval must be in hour, day, month'
         job.minute.every(interval)
 
     cron.write()
