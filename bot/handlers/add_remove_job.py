@@ -61,9 +61,14 @@ async def handle_project_name(message: Message, state: FSMContext):
 
 @router.message(AddDB.interval_type)
 async def handle_project_name(message: Message, state: FSMContext):
-    await state.update_data(interval=int(message.text))
-    await message.answer('DB api: ')
-    await state.set_state(AddDB.api)
+    text = message.text
+    if text in {'hour', 'day', 'month', 'minute'}:
+        await state.update_data(interval=str(message.text))
+        await message.answer('DB api: ')
+        await state.set_state(AddDB.api)
+    else:
+        await message.answer("qayta kiriting xatolik: {'hour', 'day', 'month', 'minute'}")
+
 
 
 @router.message(AddDB.api)
