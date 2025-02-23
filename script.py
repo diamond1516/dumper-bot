@@ -18,9 +18,10 @@ def fetch_and_save_file(project_name, name, password, user, host, port: int, api
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Foydalanish: python script.py <project_name> <name> <password> <user> <host> <port> <api>")
-        sys.exit(1)
+    print(sys.argv)
+    # if len(sys.argv) != 7:
+    #     print("Foydalanish: python script.py <project_name> <name> <password> <user> <host> <port> <api>")
+    #     sys.exit(1)
 
 
     fetch_and_save_file(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]), sys.argv[7])
