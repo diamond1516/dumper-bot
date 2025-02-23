@@ -19,20 +19,20 @@ def add_cron_job(
 
     job = cron.new(command=command, comment=project_name)
 
-    if interval == "hour":
+    if interval_type == "hour":
         job.minute.on(0)
     elif interval == "day":
         job.minute.on(0)
         job.hour.on(0)
-    elif interval == "week":
+    elif interval_type == "week":
         job.minute.on(0)
         job.hour.on(0)
         job.dow.on(0)
-    elif interval == "month":
+    elif interval_type == "month":
         job.minute.on(0)
         job.hour.on(0)
         job.day.on(1)
-    elif interval == "minute":
+    elif interval_type == "minute":
         assert interval >= 59 , 'The interval must be in hour, day, month'
         job.minute.every(interval)
 
