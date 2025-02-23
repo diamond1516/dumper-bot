@@ -1,14 +1,12 @@
+import sqlalchemy as sa
 from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
-import sqlalchemy as sa
 
 from bot.models import Database
 from bot.states import AddDB
-
-
 
 router = Router(name="commands-router")
 
@@ -35,9 +33,8 @@ async def cmd_list(message: Message, session: AsyncSession):
     """
     stmt = sa.select(Database).order_by(Database.id.desc())
     result = await session.execute(stmt)
-    await session.close()
     databases = result.scalars().all()
-    if not databases:
+    if databases:
         await message.answer(', '.join([database.project_name for database in databases]))
 
 

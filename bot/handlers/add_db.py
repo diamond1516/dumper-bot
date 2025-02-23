@@ -48,14 +48,14 @@ async def handle_project_name(message: Message, state: FSMContext):
 
 @router.message(AddDB.port)
 async def handle_project_name(message: Message, state: FSMContext):
-    await state.update_data(port=message.text)
+    await state.update_data(port=int(message.text))
     await message.answer('DB interval: ')
     await state.set_state(AddDB.interval)
 
 
 @router.message(AddDB.interval)
 async def handle_project_name(message: Message, state: FSMContext):
-    await state.update_data(interval=message.text)
+    await state.update_data(interval=int(message.text))
     await message.answer('DB api: ')
     await state.set_state(AddDB.api)
 
