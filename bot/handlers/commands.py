@@ -35,9 +35,12 @@ async def cmd_list(message: Message, session: AsyncSession):
     """
     stmt = sa.select(Database).order_by(Database.id.desc())
     result = await session.execute(stmt)
+    await session.close()
     databases = result.scalars().all()
     if not databases:
-        pass
+        await message.answer(', '.join([database.project_name for database in databases]))
+
+
 
 
 
