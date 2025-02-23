@@ -1,7 +1,12 @@
+from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings
+
+load_dotenv()
+
 
 class Settings(BaseSettings):
-    BOT_TOKEN: SecretStr
-    DB_URL: PostgresDsn
+    BOT_TOKEN: str
+    DB_URL: str
     MEDIA_URL: str = 'media/'
     STATIC_URL: str = 'static/'
     TIME_ZONE: str = 'Asia/Tashkent'

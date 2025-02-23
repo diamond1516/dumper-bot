@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from bot.models import Database
 from bot.states import AddDB
 
 router = Router(
@@ -61,11 +62,14 @@ async def handle_project_name(message: Message, state: FSMContext):
 
 @router.message(AddDB.api)
 async def handle_project_name(message: Message, session: AsyncSession, state: FSMContext):
-    await state.update_data(api=message.text)
-
-
-
+    data = await state.get_data()
+    data['api'] = message.text
+    new_db = Database(**data)
+    session.add(new_db)
+    await session.commit()
     await message.answer('Raxmat: ')
+    await state.clear()
+
 
 
 

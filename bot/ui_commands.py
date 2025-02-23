@@ -9,7 +9,10 @@ async def set_ui_commands(bot: Bot):
     """
     commands = [
         BotCommand(command="play", description="Start new game"),
-        BotCommand(command="top", description="View top players")
+        BotCommand(command="list", description="View databases"),
+        BotCommand(command="add", description="Add database"),
+        BotCommand(command="remove", description="Remove database"),
+        BotCommand(command="clear", description="Clear databases"),
     ]
     await bot.set_my_commands(
         commands=commands,

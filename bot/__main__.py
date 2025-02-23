@@ -1,6 +1,7 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.utils.callback_answer import CallbackAnswerMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
@@ -14,7 +15,7 @@ async def main():
     engine = create_async_engine(url=config.DB_URL, echo=True)
     sessionmaker = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
-    bot = Bot(config.BOT_TOKEN.get_secret_value(), parse_mode="HTML")
+    bot = Bot(config.BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
@@ -27,6 +28,7 @@ async def main():
 
     # Set bot commands in UI
     await set_ui_commands(bot)
+    await bot.delete_webhook(drop_pending_updates=True)
 
     # Run bot
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

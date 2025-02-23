@@ -1,5 +1,7 @@
-aiogram
+aiogram~=3.18.0
 asyncpg
-sqlalchemy[asyncio]
-pydantic
-pydantic-settings
+sqlalchemy[asyncio]~=2.0.38
+pydantic~=2.10.6
+pydantic-settings~=2.8.0
+
+python-dotenv~=1.0.1
