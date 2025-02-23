@@ -14,8 +14,7 @@ def add_cron_job(
         interval_type: Literal['hour', 'day', 'month', 'minute'] = 'minute',
 ):
     cron = CronTab(user=True)
-
-    command = f'python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
+    command = f'{SETTINGS.SCRIPT_VENV_PATH}/bin/python {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
 

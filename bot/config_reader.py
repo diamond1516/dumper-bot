@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     BOT_TOKEN: str
     DB_URL: str
     SCRIPT_PATH: str
+    SCRIPT_VENV_PATH: str
     MEDIA_URL: str = 'media/'
     STATIC_URL: str = 'static/'
     TIME_ZONE: str = 'Asia/Tashkent'
