@@ -7,9 +7,7 @@ from bot.models import Database
 from bot.states import AddDB, RemoveJob
 from utils.functions import add_cron_job, remove_cron_job
 
-router = Router(
-    name='Add Database',
-)
+router = Router(name='Add Database')
 
 
 @router.message(AddDB.project_name)
