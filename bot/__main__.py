@@ -5,17 +5,17 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.utils.callback_answer import CallbackAnswerMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
-from bot.config_reader import config
+from bot.config_reader import SETTINGS
 from bot.middlewares import DbSessionMiddleware
 from bot.ui_commands import set_ui_commands
 from bot.routers import __routes__
 
 
 async def main():
-    engine = create_async_engine(url=config.DB_URL, echo=True)
+    engine = create_async_engine(url=SETTINGS.DB_URL, echo=True)
     sessionmaker = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
-    bot = Bot(config.BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
+    bot = Bot(SETTINGS.BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
