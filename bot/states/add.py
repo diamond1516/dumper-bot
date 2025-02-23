@@ -9,4 +9,5 @@ class AddDB(StatesGroup):
     host = State()
     port = State()
     interval = State()
+    interval_type = State()
     api = State()
