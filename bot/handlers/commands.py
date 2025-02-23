@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.models import Database
 from bot.states import AddDB, RemoveJob
+from utils.functions import clear_cron_job
 
 router = Router(name="commands-router")
 
@@ -58,4 +59,5 @@ async def cmd_remove(message: Message, session: AsyncSession, state: FSMContext)
 
 @router.message(Command("clear"))
 async def cmd_clear(message: Message, session: AsyncSession):
-    pass
+    msg = clear_cron_job()
+    await message.answer(msg)

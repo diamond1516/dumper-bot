@@ -54,3 +54,18 @@ def remove_cron_job(project_name):
 
     return jobs_removed
 
+
+def clear_cron_job():
+    cron = CronTab(user=True)
+    jobs_to_remove = [job for job in cron if job.comment.startswith("pg_dump_jobs_")]
+
+    for job in jobs_to_remove:
+        cron.remove(job)
+
+    cron.write()
+    return f"{len(jobs_to_remove)} ta cron job o‘chirildi."
+
+
+
+
+
