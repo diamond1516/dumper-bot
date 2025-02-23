@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.models import Database
 from bot.states import AddDB
+from utils.functions import add_cron_job
 
 router = Router(
     name='Add Database',
@@ -69,6 +70,10 @@ async def handle_project_name(message: Message, session: AsyncSession, state: FS
     await session.commit()
     await message.answer('Raxmat: ')
     await state.clear()
+
+    add_cron_job(
+        **data
+    )
 
 
 
