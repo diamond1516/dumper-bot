@@ -3,8 +3,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot.models import Database
-from bot.states import AddDB, RemoveJob
+from models import Database
+from states import AddDB, RemoveJob
 from utils.functions import add_cron_job, remove_cron_job
 
 router = Router(name='Add Database')

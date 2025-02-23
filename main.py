@@ -5,10 +5,10 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.utils.callback_answer import CallbackAnswerMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
-from bot.config_reader import SETTINGS
-from bot.middlewares import DbSessionMiddleware
-from bot.ui_commands import set_ui_commands
-from bot.routers import __routes__
+from config.settings import SETTINGS
+from middlewares import DbSessionMiddleware
+from utils.ui_commands import set_ui_commands
+from handlers.routers import __routes__
 
 
 async def main():

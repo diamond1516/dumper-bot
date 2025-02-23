@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     TIME_ZONE: str = 'Asia/Tashkent'
 
     class Config:
-        env_file = '.env'
+        env_file = '../.env'
         env_file_encoding = 'utf-8'
 
 

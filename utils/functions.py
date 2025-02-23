@@ -1,5 +1,5 @@
 from crontab import CronTab
-from bot.config_reader import SETTINGS
+from config.settings import SETTINGS
 from typing import Literal
 
 def add_cron_job(
