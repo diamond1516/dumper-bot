@@ -6,7 +6,7 @@ from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.models import Database
-from bot.states import AddDB
+from bot.states import AddDB, RemoveJob
 
 router = Router(name="commands-router")
 
@@ -50,8 +50,10 @@ async def cmd_add(message: Message, session: AsyncSession, state: FSMContext):
 
 
 @router.message(Command("remove"))
-async def cmd_remove(message: Message, session: AsyncSession):
-    pass
+async def cmd_remove(message: Message, session: AsyncSession, state: FSMContext):
+    await message.answer('Project nomi:')
+    await state.set_state(RemoveJob.project_name)
+
 
 
 @router.message(Command("clear"))

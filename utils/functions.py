@@ -41,3 +41,17 @@ def add_cron_job(
 
 
 
+
+def remove_cron_job(project_name):
+    cron = CronTab(user=True)
+
+    jobs_removed = False
+    for job in cron:
+        if job.comment == f'pg_dump_jobs_{project_name}':
+            cron.remove(job)
+            jobs_removed = True
+
+    cron.write()
+
+    return jobs_removed
+

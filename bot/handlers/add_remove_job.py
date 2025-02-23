@@ -4,8 +4,8 @@ from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.models import Database
-from bot.states import AddDB
-from utils.functions import add_cron_job
+from bot.states import AddDB, RemoveJob
+from utils.functions import add_cron_job, remove_cron_job
 
 router = Router(
     name='Add Database',
@@ -74,6 +74,22 @@ async def handle_project_name(message: Message, session: AsyncSession, state: FS
     add_cron_job(
         **data
     )
+
+
+@router.message(RemoveJob.project_name)
+async def handle_project_name(message: Message, session: AsyncSession, state: FSMContext):
+    await state.clear()
+    res = remove_cron_job(message.text)
+
+    if res:
+        await message.answer("Job o'chirildi")
+        await state.clear()
+        return
+    await message.answer("Job o'chirilmadi")
+    await state.set_state(RemoveJob.project_name)
+
+
+
 
 
 
