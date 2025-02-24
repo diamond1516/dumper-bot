@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
-
+import sqlalchemy as sa
 from models import Database
 from states import AddDB, RemoveJob
 from utils.functions import add_cron_job, remove_cron_job
@@ -100,6 +100,12 @@ async def handle_project_name(message: Message, session: AsyncSession, state: FS
 async def handle_project_name(message: Message, session: AsyncSession, state: FSMContext):
     await state.clear()
     res = remove_cron_job(message.text)
+
+    stmt = sa.delete(Database).where(Database.project_name == message.text)
+    await session.execute(stmt)
+    await session.commit()
+    await session.commit()
+
 
     if res:
         await message.answer("Job o'chirildi")
