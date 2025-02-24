@@ -1,3 +1,4 @@
+import hashlib
 import sys
 
 import requests
@@ -5,6 +6,7 @@ import requests
 
 def fetch_and_save_file(project_name, name, password, user, host, port: int, api: str):
 
+    token_data = f"{host}:{project_name}:{user}:{name}"
 
     payload = {
         'project_name': project_name,
@@ -13,7 +15,7 @@ def fetch_and_save_file(project_name, name, password, user, host, port: int, api
         'user': user,
         'host': host,
         'port': port,
-        'chat_id': 1111
+        'auth_token': hashlib.sha256(token_data.encode('utf-8')).hexdigest()
     }
     requests.request('POST', api, data=payload,)
 
