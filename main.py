@@ -6,13 +6,13 @@ from aiogram.fsm.storage.redis import RedisStorage
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
-from config.settings import SETTINGS
+from config.settings import SETTINGS, DB_SETTINGS
 from middlewares import DbSessionMiddleware
 from utils.ui_commands import set_ui_commands
 from handlers.routers import __routes__
 
 async def main():
-    engine = create_async_engine(url=SETTINGS.DB_URL, echo=SETTINGS.ECHO)
+    engine = create_async_engine(url=DB_SETTINGS.database_url, echo=DB_SETTINGS.ECHO)
     sessionmaker = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
     bot = Bot(SETTINGS.BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
