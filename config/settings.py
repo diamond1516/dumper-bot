@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     ECHO: bool = True
     SCRIPT_PATH: str
     SCRIPT_VENV_PATH: str
+    REDIS_HOST: str = 'localhost'
+    REDIS_PORT: str = '6379'
     MEDIA_URL: str = 'media/'
     STATIC_URL: str = 'static/'
     TIME_ZONE: str = 'Asia/Tashkent'
