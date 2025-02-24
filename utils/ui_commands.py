@@ -9,6 +9,7 @@ async def set_ui_commands(bot: Bot):
     """
     commands = [
         BotCommand(command="start", description="Start"),
+        BotCommand(command="restart", description="Re Start jobs"),
         BotCommand(command="list", description="View databases"),
         BotCommand(command="add", description="Add database"),
         BotCommand(command="remove", description="Remove database"),
