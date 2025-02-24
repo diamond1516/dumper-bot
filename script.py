@@ -13,6 +13,7 @@ def fetch_and_save_file(project_name, name, password, user, host, port: int, api
         'user': user,
         'host': host,
         'port': port,
+        'chat_id': 1111
     }
     requests.request('POST', api, data=payload,)
 
