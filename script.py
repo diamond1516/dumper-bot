@@ -7,7 +7,6 @@ import os
 bot_token = os.getenv('BOT_TOKEN')
 chat_id = os.getenv('CHAT_ID')
 
-
 def fetch_and_save_file(project_name, name, password, user, host, port: int, api: str):
 
     token_data = f"{host}:{project_name}:{user}:{name}"
