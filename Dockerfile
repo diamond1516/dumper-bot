@@ -9,9 +9,7 @@ ENV PYTHONUNBUFFERED=1
 
 # dependicies
 RUN apt-get update && \
-    apt-get -qy install gcc libjpeg-dev libpq-dev gettext cron \
-    libcairo2 libpango1.0-dev libffi-dev libgirepository1.0-dev \
-    libglib2.0-dev shared-mime-info fonts-dejavu nano
+    apt-get -qy install gcc libjpeg-dev libpq-dev gettext cron nano
 
 
 
