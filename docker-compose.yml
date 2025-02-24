@@ -24,7 +24,7 @@ services:
   db:
     image: postgres:15
     container_name: tourism_db
-    entrypoint: ./entrypoint.sh
+    entrypoint:
     env_file:
       - .env
     environment:
