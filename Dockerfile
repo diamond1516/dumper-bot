@@ -13,7 +13,6 @@ RUN apt-get update && \
 
 
 
-
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
