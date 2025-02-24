@@ -7,6 +7,8 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      - REDIS_HOST=redis
     depends_on:
       - redis
 
