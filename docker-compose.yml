@@ -4,7 +4,8 @@ services:
   dumper_bot:
     container_name: dumper_bot
     build: .
-    restart: always
+    restart: on-failure
+    entrypoint: ./entrypoint.sh
     env_file:
       - .env
     environment:
@@ -23,8 +24,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: tourism_db
-    entrypoint:
+    container_name: dumper_db
     env_file:
       - .env
     environment:
