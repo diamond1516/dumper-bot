@@ -7,6 +7,7 @@ load_dotenv()
 class Settings(BaseSettings):
     BOT_TOKEN: str
     DB_URL: str
+    ECHO: bool = True
     SCRIPT_PATH: str
     SCRIPT_VENV_PATH: str
     MEDIA_URL: str = 'media/'

@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  dumper_bot:
+    container_name: dumper_bot
+    build: .
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    container_name: dumper_cache
+    restart: always

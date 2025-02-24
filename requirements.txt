@@ -4,7 +4,7 @@ sqlalchemy[asyncio]~=2.0.38
 pydantic~=2.10.6
 pydantic-settings~=2.8.0
 alembic[asyncio]
-
 python-dotenv~=1.0.1
 requests
 python-crontab
+redis
