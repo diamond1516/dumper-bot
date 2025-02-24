@@ -11,7 +11,7 @@ def add_cron_job(
         port: int,
         api: str,
         interval: int,
-        interval_type: Literal['hour', 'day', 'month', 'minute'] = 'minute',
+        interval_type: Literal['hour', 'day', 'week', 'month', 'minute'] = 'minute',
 ):
     cron = CronTab(user=True)
     command = f'{SETTINGS.SCRIPT_VENV_PATH}/python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
@@ -20,23 +20,27 @@ def add_cron_job(
 
     if interval_type == "hour":
         job.minute.on(0)
-    elif interval == "day":
+        job.hour.every(interval)
+    elif interval_type == "day":
         job.minute.on(0)
         job.hour.on(0)
+        job.day.every(interval)
     elif interval_type == "week":
         job.minute.on(0)
         job.hour.on(0)
-        job.dow.on(0)
+        job.dow.every(interval)
     elif interval_type == "month":
         job.minute.on(0)
         job.hour.on(0)
         job.day.on(1)
+        job.month.every(interval)
     elif interval_type == "minute":
-        assert interval <= 59 , 'The interval must be in hour, day, month'
+        assert interval <= 59, 'The interval must be in hour, day, month'
         job.minute.every(interval)
 
     cron.write()
-    return f"Cron job added for {project_name} at interval {interval}"
+    return f"Cron job added for {project_name} at interval {interval} {interval_type}"
+
 
 
 
