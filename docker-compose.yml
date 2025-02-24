@@ -10,6 +10,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - DB_HOST=db
+      - SCRIPT_PATH=/app
     depends_on:
       - redis
       - db
