@@ -37,7 +37,8 @@ async def cmd_list(message: Message, session: AsyncSession):
     databases = result.scalars().all()
     if databases:
         await message.answer(', '.join([database.project_name for database in databases]))
-
+    else:
+        await message.answer('No databases found')
 
 
 
