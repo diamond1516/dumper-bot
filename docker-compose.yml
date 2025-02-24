@@ -4,7 +4,6 @@ services:
   dumper_bot:
     container_name: dumper_bot
     build: .
-    restart: on-failure
     entrypoint: ./entrypoint.sh
     env_file:
       - .env
@@ -33,7 +32,6 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: always
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
       interval: 30s
