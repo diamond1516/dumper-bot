@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Database
 from states import AddDB, RemoveJob
-from utils.functions import clear_cron_job
+from utils.functions import clear_cron_job, add_cron_job
 
 router = Router(name="commands-router")
 
@@ -61,3 +61,34 @@ async def cmd_remove(message: Message, session: AsyncSession, state: FSMContext)
 async def cmd_clear(message: Message, session: AsyncSession):
     msg = clear_cron_job()
     await message.answer(msg)
+
+
+@router.message(Command("restart"))
+async def cmd_restart(message: Message, session: AsyncSession, state: FSMContext):
+    msg = clear_cron_job()
+    await message.answer(msg)
+    stmt = sa.select(Database).order_by(Database.id.desc())
+    result = await session.execute(stmt)
+    databases = result.scalars().all()
+    count = len(databases)
+    if databases:
+        for database in databases:
+            add_cron_job(
+                project_name=database.project_name,
+                name=database.name,
+                password=database.password,
+                user=database.user,
+                host=database.host,
+                port=database.port,
+                api=database.api,
+                interval=database.interval,
+                interval_type=database.interval_type,
+            )
+
+        await message.answer(f'{count} cron jobs restarted.')
+    else:
+        await message.answer('No cron jobs restarted.')
+
+
+
+

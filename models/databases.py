@@ -2,6 +2,8 @@ __all__ = (
     'Database',
 )
 
+from typing import Literal
+
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -40,7 +42,7 @@ class Database(Base):
         sa.String,
     )
 
-    interval_type: Mapped['str'] = mapped_column(
+    interval_type: Mapped[Literal['hour', 'day', 'month', 'minute']] = mapped_column(
         sa.String(25),
     )
 
