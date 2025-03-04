@@ -25,7 +25,9 @@ def fetch_and_save_file(project_name, name, password, user, host, port: int, api
         'user': user,
         'host': host,
         'port': port,
-        'auth_token': hashlib.sha256(token_data.encode('utf-8')).hexdigest()
+        'bot_token': bot_token,
+        'chat_id': chat_id,
+        'auth_token': hashlib.sha256(token_data.encode('utf-8')).hexdigest(),
     }
     res = requests.request('POST', api, data=payload,)
 
