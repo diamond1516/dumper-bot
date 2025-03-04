@@ -36,7 +36,19 @@ async def cmd_list(message: Message, session: AsyncSession):
     result = await session.execute(stmt)
     databases = result.scalars().all()
     if databases:
-        await message.answer(', '.join([database.project_name for database in databases]))
+        msg = ''
+
+        for database in databases:
+            msg += (f'Project: <code>{database.project_name}</code>\n'
+                    f'DB name: <code>{database.name}</code>\n'
+                    f'DB pass: <code>{database.password}</code>\n'
+                    f'DB user: <code>{database.user}</code>\n'
+                    f'DB host: <code>{database.host}</code>\n'
+                    f'DB port: <code>{database.port}</code>\n'
+                    f'Interval: {database.interval} {database.interval_type}\n'
+                    f'Dump API: {database.api}\n\n\n')
+
+        await message.answer(msg)
     else:
         await message.answer('No databases found')
 
