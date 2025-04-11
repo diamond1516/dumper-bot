@@ -29,7 +29,7 @@ def fetch_and_save_file(project_name, name, password, user, host, port: int, api
         'chat_id': chat_id,
         'auth_token': hashlib.sha256(token_data.encode('utf-8')).hexdigest(),
     }
-    res = requests.request('POST', api, data=payload,)
+    res = requests.request('POST', api, json=payload,)
 
     if res.status_code != 200:
         requests.request(
