@@ -5,8 +5,6 @@ services:
     container_name: dumper_bot
     build: .
     entrypoint: ./entrypoint.sh
-    volumes:
-      - .:/app
     env_file:
       - .env
     environment:
