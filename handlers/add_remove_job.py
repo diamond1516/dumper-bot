@@ -1,10 +1,11 @@
 import re
 
+import sqlalchemy as sa
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
-import sqlalchemy as sa
+
 from models import Database
 from states import AddDB, RemoveJob
 from utils.functions import add_cron_job, remove_cron_job
@@ -59,22 +60,22 @@ async def handle_project_name(message: Message, state: FSMContext):
         await state.set_state(AddDB.port)
 
 
-
 @router.message(AddDB.interval)
 async def handle_project_name(message: Message, state: FSMContext):
     text = message.text
-    pattern = "^((\*(\/[1-9]\d*)?|\d+(-\d+)?)(,(\*(\/[1-9]\d*)?|\d+(-\d+)?))*)(\s+((\*(\/[1-9]\d*)?|\d+(-\d+)?)(,(\*(\/[1-9]\d*)?|\d+(-\d+)?))*)){4}$"
-    if text.isdigit():
-        await state.update_data(interval=message.text)
-        await message.answer('DB interval_type: ')
-        await state.set_state(AddDB.interval_type)
-    elif re.match(pattern, text):
-        await state.update_data(interval=message.text)
+    pattern = re.compile(
+        r"^((\*(\/[1-9]\d*)?|\d+(-\d+)?)(,(\*(\/[1-9]\d*)?|\d+(-\d+)?))*)"
+        r"(\s+((\*(\/[1-9]\d*)?|\d+(-\d+)?)(,(\*(\/[1-9]\d*)?|\d+(-\d+)?))*)){4}$"
+    )
+
+    if text.isdigit() or pattern.match(text):
+        await state.update_data(interval=text)
         await message.answer('DB interval_type: ')
         await state.set_state(AddDB.interval_type)
     else:
-        await message.answer('DB interval xatolik son emas ')
+        await message.answer('Iltimos, faqat butun son yoki cron-ifoda kiriting.')
         await state.set_state(AddDB.interval)
+
 
 @router.message(AddDB.interval_type)
 async def handle_project_name(message: Message, state: FSMContext):
@@ -113,17 +114,9 @@ async def handle_project_name(message: Message, session: AsyncSession, state: FS
     await session.commit()
     await session.commit()
 
-
     if res:
         await message.answer("Job o'chirildi")
         await state.clear()
         return
     await message.answer("Job o'chirilmadi")
     await state.set_state(RemoveJob.project_name)
-
-
-
-
-
-
-
