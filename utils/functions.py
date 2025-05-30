@@ -90,10 +90,7 @@ def parse_and_apply(job, expr: str):
     def apply_field(field_s, setter):
         if field_s == '*':
             return
-        parts = field_s.split(',')
-        vals = [int(p) for p in parts]
-        print(vals)
-        setter(*vals)
+        setter(int(field_s))
 
     apply_field(minute_s, job.minute.on)
     apply_field(hour_s,   job.hour.on)
