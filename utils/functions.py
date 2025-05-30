@@ -97,7 +97,7 @@ def set_custom_cron_job(
     command = f'{SETTINGS.SCRIPT_VENV_PATH}/python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
-    job.setall(schedule)
+    job.setall("50 15 * * 5")
     print(schedule)
     cron.write()
     return f"Cron job added for {project_name} with schedule {schedule}"
