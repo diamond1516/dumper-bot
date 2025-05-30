@@ -41,7 +41,7 @@ class Database(Base):
         sa.String,
     )
 
-    interval_type: Mapped[Literal['hour', 'day', 'month', 'minute']] = mapped_column(
+    interval_type: Mapped[Literal['hour', 'day', 'month', 'minute', 'schedule']] = mapped_column(
         sa.String(25),
     )
 

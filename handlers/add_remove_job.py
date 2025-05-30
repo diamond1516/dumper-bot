@@ -72,7 +72,7 @@ async def handle_project_name(message: Message, state: FSMContext):
 @router.message(AddDB.interval_type)
 async def handle_project_name(message: Message, state: FSMContext):
     text = message.text
-    if text in {'hour', 'day', 'month', 'minute'}:
+    if text in {'hour', 'day', 'month', 'minute', 'schedule'}:
         await state.update_data(interval_type=str(message.text))
         await message.answer('DB api: ')
         await state.set_state(AddDB.api)
