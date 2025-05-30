@@ -75,6 +75,7 @@ async def handle_project_name(message: Message, state: FSMContext):
     else:
         await message.answer('Iltimos, faqat butun son yoki cron-ifoda kiriting.')
         await state.set_state(AddDB.interval)
+        await message.answer('DB interval xatolik son emas ')
 
 
 @router.message(AddDB.interval_type)
@@ -85,7 +86,7 @@ async def handle_project_name(message: Message, state: FSMContext):
         await message.answer('DB api: ')
         await state.set_state(AddDB.api)
     else:
-        await message.answer("Qayta kiriting xatolik: {'hour', 'day', 'month', 'minute'}")
+        await message.answer("Qayta kiriting xatolik: {'hour', 'day', 'month', 'minute', schedule}")
         await state.set_state(AddDB.interval_type)
 
 
