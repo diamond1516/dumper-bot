@@ -1,5 +1,4 @@
 from typing import Literal
-from typing import Optional
 
 from crontab import CronTab
 
@@ -79,16 +78,13 @@ def set_custom_cron_job(
         host: str,
         port: int,
         api: str,
-        minute: Optional[str] = '*',  # 0-59 yoki '*'
-        hour: Optional[str] = '*',  # 0-23 yoki '*'
-        day: Optional[str] = '*',  # 1-31 yoki '*'
-        month: Optional[str] = '*',  # 1-12 yoki '*'
-        weekday: Optional[str] = '*',  # 0-6 (Yakshanba=0) yoki '*'
+        schedule: str
+
 ):
     cron = CronTab(user=True)
     command = f'{SETTINGS.SCRIPT_VENV_PATH}/python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
-    job.setall(f'{minute} {hour} {day} {month} {weekday}')
+    job.setall(schedule)
     cron.write()
-    return f"Cron job added for {project_name} with schedule {minute} {hour} {day} {month} {weekday}"
+    return f"Cron job added for {project_name} with schedule "
