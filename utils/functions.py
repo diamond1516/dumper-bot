@@ -38,7 +38,7 @@ def add_cron_job(
         job.day.on(1)
         job.month.every(interval)
     elif interval_type == "minute":
-        assert interval <= 59, 'The interval must be in hour, day, month'
+        assert int(interval) <= 59, 'The interval must be in hour, day, month'
         job.minute.every(interval)
     elif interval_type == 'schedule':
         set_custom_cron_job(
