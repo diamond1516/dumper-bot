@@ -1,3 +1,5 @@
+import re
+
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
@@ -61,8 +63,13 @@ async def handle_project_name(message: Message, state: FSMContext):
 @router.message(AddDB.interval)
 async def handle_project_name(message: Message, state: FSMContext):
     text = message.text
+    pattern = "^((\*(\/[1-9]\d*)?|\d+(-\d+)?)(,(\*(\/[1-9]\d*)?|\d+(-\d+)?))*)(\s+((\*(\/[1-9]\d*)?|\d+(-\d+)?)(,(\*(\/[1-9]\d*)?|\d+(-\d+)?))*)){4}$"
     if text.isdigit():
-        await state.update_data(interval=int(message.text))
+        await state.update_data(interval=message.text)
+        await message.answer('DB interval_type: ')
+        await state.set_state(AddDB.interval_type)
+    elif re.match(pattern, text):
+        await state.update_data(interval=message.text)
         await message.answer('DB interval_type: ')
         await state.set_state(AddDB.interval_type)
     else:
