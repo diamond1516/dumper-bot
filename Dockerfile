@@ -28,6 +28,5 @@ COPY  . .
 EXPOSE 8019
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-RUN cron -f &
-
+ENTRYPOINT ["/entrypoint.sh"]
 
