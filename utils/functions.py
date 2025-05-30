@@ -115,6 +115,10 @@ def set_custom_cron_job(
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
 
     parse_and_apply(job, schedule)
-    print(schedule)
+    print(job.minute)
+    print(job.hour)
+    print(job.day)
+    print(job.month)
+    print(job.dow)
     cron.write()
     return f"Cron job added for {project_name} with schedule {schedule}"
