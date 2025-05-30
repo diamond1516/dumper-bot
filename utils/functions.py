@@ -98,5 +98,6 @@ def set_custom_cron_job(
 
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
     job.setall(schedule)
+    print(schedule)
     cron.write()
     return f"Cron job added for {project_name} with schedule {schedule}"
