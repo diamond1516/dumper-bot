@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Database
 from states import AddDB, RemoveJob
-from utils.functions import clear_cron_job, add_cron_job
+from utils.functions import clear_cron_job, add_cron_job, set_custom_cron_job
 
 router = Router(name="commands-router")
 
@@ -53,21 +53,16 @@ async def cmd_list(message: Message, session: AsyncSession):
         await message.answer('No databases found')
 
 
-
-
 @router.message(Command("add"))
 async def cmd_add(message: Message, session: AsyncSession, state: FSMContext):
     await message.answer('Project nomi:')
     await state.set_state(AddDB.project_name)
 
 
-
-
 @router.message(Command("remove"))
 async def cmd_remove(message: Message, session: AsyncSession, state: FSMContext):
     await message.answer('Project nomi:')
     await state.set_state(RemoveJob.project_name)
-
 
 
 @router.message(Command("clear"))
@@ -86,22 +81,30 @@ async def cmd_restart(message: Message, session: AsyncSession, state: FSMContext
     count = len(databases)
     if databases:
         for database in databases:
-            add_cron_job(
-                project_name=database.project_name,
-                name=database.name,
-                password=database.password,
-                user=database.user,
-                host=database.host,
-                port=database.port,
-                api=database.api,
-                interval=database.interval,
-                interval_type=database.interval_type,
-            )
+            if database.interval_type != 'schedule':
+                add_cron_job(
+                    project_name=database.project_name,
+                    name=database.name,
+                    password=database.password,
+                    user=database.user,
+                    host=database.host,
+                    port=database.port,
+                    api=database.api,
+                    interval=database.interval,
+                    interval_type=database.interval_type,
+                )
+            else:
+                set_custom_cron_job(
+                    project_name=database.project_name,
+                    name=database.name,
+                    password=database.password,
+                    user=database.user,
+                    host=database.host,
+                    port=database.port,
+                    api=database.api,
+                    schedule=database.interval,
+                )
 
         await message.answer(f'{count} cron jobs restarted.')
     else:
         await message.answer('No cron jobs restarted.')
-
-
-
-

@@ -40,18 +40,6 @@ def add_cron_job(
     elif interval_type == "minute":
         assert int(interval) <= 59, 'The interval must be in hour, day, month'
         job.minute.every(interval)
-    elif interval_type == 'schedule':
-        set_custom_cron_job(
-            project_name,
-            name,
-            password,
-            user,
-            host,
-            port,
-            api,
-            interval,
-        )
-
 
     cron.write()
     return f"Cron job added for {project_name} at interval {interval} {interval_type}"
@@ -82,7 +70,6 @@ def clear_cron_job():
     return f"{len(jobs_to_remove)} ta cron job o‘chirildi."
 
 
-
 def parse_and_apply(job, expr: str):
     minute_s, hour_s, day_s, month_s, dow_s = expr.split()
     print(minute_s, hour_s, day_s, month_s, dow_s)
@@ -93,10 +80,11 @@ def parse_and_apply(job, expr: str):
         setter(int(field_s))
 
     apply_field(minute_s, job.minute.on)
-    apply_field(hour_s,   job.hour.on)
-    apply_field(day_s,    job.day.on)
-    apply_field(month_s,  job.month.on)
-    apply_field(dow_s,    job.dow.on)
+    apply_field(hour_s, job.hour.on)
+    apply_field(day_s, job.day.on)
+    apply_field(month_s, job.month.on)
+    apply_field(dow_s, job.dow.on)
+
 
 def set_custom_cron_job(
         project_name: str,
@@ -113,12 +101,7 @@ def set_custom_cron_job(
     command = f'{SETTINGS.SCRIPT_VENV_PATH}/python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
-
-    parse_and_apply(job, schedule)
-    print(job.minute)
-    print(job.hour)
-    print(job.day)
-    print(job.month)
-    print(job.dow)
+    job.setall(schedule)
+    print(schedule)
     cron.write()
     return f"Cron job added for {project_name} with schedule {schedule}"
