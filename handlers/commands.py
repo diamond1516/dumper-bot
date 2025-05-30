@@ -118,9 +118,9 @@ async def cmd_get(message: Message, session: AsyncSession):
     )
     stdout, stderr = await process.communicate()
 
-    if stdout:
-        await message.answer(f"✅ Natija:\n<pre>{stdout.decode().strip()}</pre>")
-    if stderr:
+    if process.returncode == 0:
+        await message.answer(f"✅")
+    else:
         await message.answer(f"⚠️ Xatolik:\n<pre>{stderr.decode().strip()}</pre>")
 
 

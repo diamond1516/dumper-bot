@@ -47,3 +47,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     fetch_and_save_file(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]), sys.argv[7])
+    sys.exit(0)
