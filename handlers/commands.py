@@ -90,7 +90,7 @@ async def cmd_get(message: Message, session: AsyncSession):
     if not word:
         return await message.answer("Iltimos, so‘zni kiriting: `/get <name>`")
 
-    stmt = sa.select(Database).where(Database.name == word).limit(1)
+    stmt = sa.select(Database).where(Database.project_name == word).limit(1)
     result = await session.execute(stmt)
     database: Database = result.scalar_one_or_none()
 
