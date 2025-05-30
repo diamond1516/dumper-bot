@@ -1,6 +1,10 @@
-from crontab import CronTab
-from config.settings import SETTINGS
 from typing import Literal
+from typing import Optional
+
+from crontab import CronTab
+
+from config.settings import SETTINGS
+
 
 def add_cron_job(
         project_name,
@@ -42,9 +46,6 @@ def add_cron_job(
     return f"Cron job added for {project_name} at interval {interval} {interval_type}"
 
 
-
-
-
 def remove_cron_job(project_name):
     cron = CronTab(user=True)
 
@@ -70,6 +71,24 @@ def clear_cron_job():
     return f"{len(jobs_to_remove)} ta cron job o‘chirildi."
 
 
+def set_custom_cron_job(
+        project_name: str,
+        name: str,
+        password: str,
+        user: str,
+        host: str,
+        port: int,
+        api: str,
+        minute: Optional[str] = '*',  # 0-59 yoki '*'
+        hour: Optional[str] = '*',  # 0-23 yoki '*'
+        day: Optional[str] = '*',  # 1-31 yoki '*'
+        month: Optional[str] = '*',  # 1-12 yoki '*'
+        weekday: Optional[str] = '*',  # 0-6 (Yakshanba=0) yoki '*'
+):
+    cron = CronTab(user=True)
+    command = f'{SETTINGS.SCRIPT_VENV_PATH}/python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
-
-
+    job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
+    job.setall(f'{minute} {hour} {day} {month} {weekday}')
+    cron.write()
+    return f"Cron job added for {project_name} with schedule {minute} {hour} {day} {month} {weekday}"
