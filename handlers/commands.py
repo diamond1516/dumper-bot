@@ -1,10 +1,10 @@
-import sqlalchemy as sa
 from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from config.settings import SETTINGS
 from models import Database
 from states import AddDB, RemoveJob
 from utils.functions import clear_cron_job, add_cron_job, set_custom_cron_job
@@ -69,6 +69,59 @@ async def cmd_remove(message: Message, session: AsyncSession, state: FSMContext)
 async def cmd_clear(message: Message, session: AsyncSession):
     msg = clear_cron_job()
     await message.answer(msg)
+
+
+import asyncio
+import shlex
+from aiogram import Router
+from aiogram.filters import Command
+from aiogram.types import Message
+from sqlalchemy.ext.asyncio import AsyncSession
+import sqlalchemy as sa
+
+router = Router()
+
+
+@router.message(Command("get"))
+async def cmd_get(message: Message, session: AsyncSession):
+    parts = message.text.split(maxsplit=1)
+    word = parts[1] if len(parts) > 1 else None
+
+    if not word:
+        return await message.answer("Iltimos, so‘zni kiriting: `/get <name>`")
+
+    stmt = sa.select(Database).where(Database.name == word).limit(1)
+    result = await session.execute(stmt)
+    database: Database = result.scalar_one_or_none()
+
+    if not database:
+        return await message.answer(f"“{word}” nomli baza topilmadi.")
+
+    command = (
+        f"{SETTINGS.SCRIPT_VENV_PATH}/python3 "
+        f"{SETTINGS.SCRIPT_PATH}/script.py "
+        f"{shlex.quote(database.project_name)} "
+        f"{shlex.quote(database.name)} "
+        f"{shlex.quote(database.password)} "
+        f"{shlex.quote(database.user)} "
+        f"{shlex.quote(database.host)} "
+        f"{shlex.quote(str(database.port))} "
+        f"{shlex.quote(database.api)}"
+    )
+
+    await message.answer(f"Komanda ishga tushirilmoqda:\n```\n{command}\n```")
+
+    process = await asyncio.create_subprocess_shell(
+        command,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    stdout, stderr = await process.communicate()
+
+    if stdout:
+        await message.answer(f"✅ Natija:\n<pre>{stdout.decode().strip()}</pre>")
+    if stderr:
+        await message.answer(f"⚠️ Xatolik:\n<pre>{stderr.decode().strip()}</pre>")
 
 
 @router.message(Command("restart"))
