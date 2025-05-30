@@ -85,12 +85,14 @@ def clear_cron_job():
 
 def parse_and_apply(job, expr: str):
     minute_s, hour_s, day_s, month_s, dow_s = expr.split()
+    print(minute_s, hour_s, day_s, month_s, dow_s)
 
     def apply_field(field_s, setter):
         if field_s == '*':
             return
         parts = field_s.split(',')
         vals = [int(p) for p in parts]
+        print(vals)
         setter(*vals)
 
     apply_field(minute_s, job.minute.on)
