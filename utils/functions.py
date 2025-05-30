@@ -82,6 +82,23 @@ def clear_cron_job():
     return f"{len(jobs_to_remove)} ta cron job o‘chirildi."
 
 
+
+def parse_and_apply(job, expr: str):
+    minute_s, hour_s, day_s, month_s, dow_s = expr.split()
+
+    def apply_field(field_s, setter):
+        if field_s == '*':
+            return
+        parts = field_s.split(',')
+        vals = [int(p) for p in parts]
+        setter(*vals)
+
+    apply_field(minute_s, job.minute.on)
+    apply_field(hour_s,   job.hour.on)
+    apply_field(day_s,    job.day.on)
+    apply_field(month_s,  job.month.on)
+    apply_field(dow_s,    job.dow.on)
+
 def set_custom_cron_job(
         project_name: str,
         name: str,
@@ -97,7 +114,8 @@ def set_custom_cron_job(
     command = f'{SETTINGS.SCRIPT_VENV_PATH}/python3 {SETTINGS.SCRIPT_PATH}/script.py {project_name} {name} {password} {user} {host} {port} {api}'
 
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
-    job.setall("50 15 * * 5")
+
+    parse_and_apply(job, schedule)
     print(schedule)
     cron.write()
     return f"Cron job added for {project_name} with schedule {schedule}"
