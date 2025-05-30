@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Union
 
 from crontab import CronTab
 
@@ -13,7 +13,7 @@ def add_cron_job(
         host,
         port: int,
         api: str,
-        interval: int,
+        interval: Union[int, str],
         interval_type: Literal['hour', 'day', 'week', 'month', 'minute'] = 'minute',
 ):
     cron = CronTab(user=True)
@@ -40,6 +40,18 @@ def add_cron_job(
     elif interval_type == "minute":
         assert interval <= 59, 'The interval must be in hour, day, month'
         job.minute.every(interval)
+    elif interval_type == 'schedule':
+        set_custom_cron_job(
+            project_name,
+            name,
+            password,
+            user,
+            host,
+            port,
+            api,
+            interval,
+        )
+
 
     cron.write()
     return f"Cron job added for {project_name} at interval {interval} {interval_type}"
@@ -87,4 +99,4 @@ def set_custom_cron_job(
     job = cron.new(command=command, comment=f'pg_dump_jobs_{project_name}')
     job.setall(schedule)
     cron.write()
-    return f"Cron job added for {project_name} with schedule "
+    return f"Cron job added for {project_name} with schedule {schedule}"
