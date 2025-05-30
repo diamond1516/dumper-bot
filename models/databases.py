@@ -34,9 +34,8 @@ class Database(Base):
         sa.Integer,
         default=5432
     )
-    interval: Mapped['int'] = mapped_column(
-        sa.Integer,
-        default=30,
+    interval: Mapped['str'] = mapped_column(
+        sa.String(255),
     )
     api: Mapped['str'] = mapped_column(
         sa.String,
