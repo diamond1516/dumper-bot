@@ -1,5 +1,10 @@
+import asyncio
+import shlex
+
+import sqlalchemy as sa
 from aiogram import Router
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import Command
+from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -69,17 +74,6 @@ async def cmd_remove(message: Message, session: AsyncSession, state: FSMContext)
 async def cmd_clear(message: Message, session: AsyncSession):
     msg = clear_cron_job()
     await message.answer(msg)
-
-
-import asyncio
-import shlex
-from aiogram import Router
-from aiogram.filters import Command
-from aiogram.types import Message
-from sqlalchemy.ext.asyncio import AsyncSession
-import sqlalchemy as sa
-
-router = Router()
 
 
 @router.message(Command("get"))
